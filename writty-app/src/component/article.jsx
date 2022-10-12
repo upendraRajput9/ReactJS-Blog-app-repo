@@ -18,6 +18,7 @@ export default class Article extends Component{
             'Friday',
             'Saturday'
         ];
+        
         let ml = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
         let date = new Date(elm.createdAt)
         return(
