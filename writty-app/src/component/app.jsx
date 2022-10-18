@@ -1,16 +1,26 @@
-import React,{Component} from "react";
-import ArticleList from "./articleList";
+import {Component} from "react"
+import { Route,Routes } from "react-router-dom"
+import Header from "./header"
+import SignUp from "./SignUp"
+import SignIn from "./SignIn"
+import NewPost from "./NewPost"
+import SingleArticle from "./SingleArticle"
+import Home from "./Home"
 
 export default class APP extends Component{
-    constructor(props){
-        super(props)
-    }
-
+    
     render(){
 
         return(
             <>
-            <ArticleList/>
+            <Header/>
+<Routes>
+            <Route path="/" element={<Home/>} exact />
+            <Route path="/editor" element={<NewPost/>}/>
+            <Route path="/signUp" element={<SignUp/>}/>
+            <Route path="/signIn" element={<SignIn/>}/>
+            <Route path="/article/:slug"  element={<SingleArticle/>}/>
+            </Routes>
             </>
         )
     }

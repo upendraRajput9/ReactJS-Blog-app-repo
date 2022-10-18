@@ -1,14 +1,9 @@
-import React,{Component} from "react";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
-export default class Article extends Component{
-    constructor(props){
-        super(props)
-    }
-
-    render(){
-       
+export default class Article extends Component {
+    render() {
         let elm = this.props
-
         let dl = [
             'Sunday',
             'Monday',
@@ -18,28 +13,25 @@ export default class Article extends Component{
             'Friday',
             'Saturday'
         ];
-        
         let ml = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
         let date = new Date(elm.createdAt)
-        return(
-            
-            <article >
-            <header>
-                <div>
-                    <figure>
-                        <img src={elm.author.image} alt="author" />
-                    </figure>
+        return (
+            <article>
+                <header>
                     <div>
-                        <h3>{elm.author.username}</h3>
-                        <time>{dl[date.getDay()].slice(0,3)} {ml[date.getMonth()]} {date.getDate()}, {date.getFullYear()}</time>
+                        <figure>
+                            <img src={elm.author.image} alt="author" />
+                        </figure>
+                        <div>
+                            <h3>{elm.author.username}</h3>
+                            <time>{dl[date.getDay()].slice(0, 3)} {ml[date.getMonth()]} {date.getDate()}, {date.getFullYear()}</time>
+                        </div>
                     </div>
-                </div>
-                <div className="">
-
-                </div>
-            </header>
-
-        </article>
+                </header>
+                <Link to={`/article/${elm.slug}`}>
+                    <h2>{elm.title}</h2>
+                    </Link>
+            </article>
         )
     }
 }
