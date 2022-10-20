@@ -6,6 +6,9 @@ import Aside from "./aside"
 import FeedNav from "./feedNav";
 import axios from "axios"
 
+const api = axios.create({
+    baseURL:articlesURL
+})
 
 export default class Home extends Component {
 
@@ -49,7 +52,7 @@ export default class Home extends Component {
 
     fetch = () => {
         let { limit, offset ,activeTab} = this.state
-        axios.get(articlesURL + `/?limit=${limit}&offset=${offset}&${activeTab?`tag=${activeTab}`:''}`)
+        api.get( `/?limit=${limit}&offset=${offset}&${activeTab?`tag=${activeTab}`:''}`)
             .then(res => {
                 this.setState({
                     articlesData: res.data.articles,

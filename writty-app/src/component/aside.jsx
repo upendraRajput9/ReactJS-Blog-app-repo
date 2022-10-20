@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { ROOT_URL } from "./utilits/constant";
 import axios from "axios";
 
+const api = axios.create({
+    baseURL:ROOT_URL
+})
+
 export default class Aside extends Component {
     constructor(props) {
         super(props)
@@ -10,7 +14,7 @@ export default class Aside extends Component {
         }
     }
     componentDidMount() {
-        axios.get(ROOT_URL + `/api/tags`)
+        api.get(`/api/tags`)
             .then(res => {
                 this.setState({
                     tags: res.data.tags
