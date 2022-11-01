@@ -6,8 +6,15 @@ import Aside from "./aside"
 import FeedNav from "./feedNav";
 import axios from "axios"
 
+const jwt = localStorage.getItem("jwtKey")
+
 const api = axios.create({
-    baseURL:articlesURL
+    baseURL: articlesURL,
+    headers: {
+        "Content-Type": "application/json",
+        authorization: `Token ${jwt}`,
+    },
+
 })
 
 export default class Home extends Component {
@@ -18,23 +25,20 @@ export default class Home extends Component {
         offset: 0,
         error: "",
         tag: null,
-        author: null,
-        favorited: null,
-        activeTab: null
+        activeTab: this.props.currentUser ? "yourFeed" : "globalFeed"
     }
 
 
     //Tag
     //addTag
-    addTag = (tag) => {
-        this.setState({ activeTab: tag,
-        offset:0
+    handleActiveTab = (tab) => {
+        this.setState({
+            activeTab: tab,
+            offset: 0,
+            tag: null
         })
     }
-    //Remove tag
-    removeTag = () => {
-        this.setState({ activeTab: null, offset:0 })
-    }
+
     //Handle Offset button Click
     handleOffsetBtn = (num) => {
         num = this.state.limit * num
@@ -46,13 +50,22 @@ export default class Home extends Component {
     //handleTag
     handleTags = (tag) => {
         this.setState({
-            tag: tag
+            tag: tag,
+            activeTab: tag
         })
     }
 
-    fetch = () => {
-        let { limit, offset ,activeTab} = this.state
-        api.get( `/?limit=${limit}&offset=${offset}&${activeTab?`tag=${activeTab}`:''}`)
+    handlefeed = (feed) => {
+        this.setState({
+            tag: null,
+            activeTab: feed
+        })
+    }
+    // GlobalFetch
+    globalFetch = async () => {
+        let { limit, offset, activeTab, tag } = this.state
+
+        api.get(`/?limit=${limit}&offset=${offset}${tag ? `&tag=${tag}` : ""}`)
             .then(res => {
                 this.setState({
                     articlesData: res.data.articles,
@@ -66,35 +79,82 @@ export default class Home extends Component {
                 })
             })
     }
+
+    //your Feed
+    yourFeed = async () => {
+        let { limit, offset, activeTab } = this.state
+
+
+        await api.get(`/feed`)
+            .then(res => {
+                this.setState({
+                    articlesData: res.data.articles,
+                    articlesCount: res.data.articlesCount,
+                    error: ""
+                })
+            })
+            .catch(err => {
+                this.setState({
+                    errors: "not able to fetch article"
+                })
+            })
+    }
+
+
     //ComponentDidMount
     componentDidMount() {
-        this.fetch()
+        let { activeTab } = this.state
+        //    console.log(api.get('/feed'))
+        if (activeTab === "yourFeed") {
+            this.yourFeed()
+        } else {
+            this.globalFetch()
+        }
+
     }
 
     //component Did Update
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.offset !== this.state.offset||prevState.activeTab !== this.state.activeTab) {
-            this.fetch()
+        let { activeTab } = this.state
+        if (prevState.offset !== this.state.offset || prevState.activeTab !== this.state.activeTab) {
+            if (activeTab === "yourFeed") {
+                this.yourFeed()
+            } else {
+                this.globalFetch()
+            }
+
         }
     }
-
-
+    handleFavorite =async (slug)=>{
+        await api.post(`/${slug}/favorite`)
+        this.state.activeTab==="yourFeed"? this.yourFeed():this.globalFetch()
+    }
+    handleUnfavorite= async (slug)=>{
+        await api.delete(`/${slug}/favorite`)
+        this.state.activeTab=== "yourFeed"? this.yourFeed():this.globalFetch()
+    }
 
     render() {
-        let { articlesData, articlesCount, error,activeTab, limit } = this.state
+        let { articlesData,offset, tag, articlesCount, error, activeTab, limit } = this.state
         if (error) {
-            return <p>{error}</p>
+            return (
+                <main className="home container">
+                    <h1>Loading...</h1>
+                    </main>
+                )
         }
         return (
-            <React.Fragment>
-                <FeedNav removeTag={()=>this.removeTag()} activeTab={activeTab} />
-                {articlesData ? <>
-                    <ArticleList articles={articlesData}  />
-                    <Pagination limit={limit} offset={this.handleOffsetBtn} articlesCount={articlesCount} />
-                </> : ""
-                }
-                <Aside addTag={this.addTag} />
-            </React.Fragment>
+            <main className="home container">
+                <section className="aritcle-container">
+                    <FeedNav  activeTab={ activeTab} {...this.props} handleActiveTab={this.handleActiveTab} tag={tag} />
+                    {articlesData ? <>
+                        <ArticleList handleFavorite={this.handleFavorite} handleUnfavorite={this.handleUnfavorite} articles={articlesData} />
+                        <Pagination limit={limit} activeoffset={offset/10} offset={this.handleOffsetBtn} articlesCount={articlesCount} />
+                    </> : ""
+                    }
+                </section>
+                <Aside addTag={this.handleTags} />
+            </main>
         )
     }
 }

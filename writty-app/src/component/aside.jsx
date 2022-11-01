@@ -3,7 +3,7 @@ import { ROOT_URL } from "./utilits/constant";
 import axios from "axios";
 
 const api = axios.create({
-    baseURL:ROOT_URL
+    baseURL: ROOT_URL
 })
 
 export default class Aside extends Component {
@@ -23,13 +23,12 @@ export default class Aside extends Component {
             .catch(err => console.log(err))
     }
     render() {
-        let { tags,error } = this.state
+        let { tags, error } = this.state
         if (error) {
             return <p>{error}</p>
         }
         return (
-            <section>
-               
+            <section className="aside">
                 <ul>{
                     tags.map(tag => <li onClick={() => this.props.addTag(tag)} key={tag}>{tag}</li>)
                 }</ul>
