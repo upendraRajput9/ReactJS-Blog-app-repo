@@ -55,7 +55,7 @@ fetch()
 //useEffect
     useEffect(() => {
         fetch()
-    }, [comments])
+    },[comments])
 
     return (
         <>{

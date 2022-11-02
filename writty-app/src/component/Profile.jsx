@@ -21,7 +21,6 @@ function Profile(props) {
     function fetch() {
         api.get(`/api/profiles/${username}`)
             .then(res => setUser(res.data.profile))
-            .catch(err => console.log(err))
     }
 
 

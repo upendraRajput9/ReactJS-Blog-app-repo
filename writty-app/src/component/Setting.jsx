@@ -72,7 +72,7 @@ class SettingComponent extends React.PureComponent {
                 <span className="error">{errors.username}</span>
                 <span className="error">{errors.email}</span>
                 <span className="error">{errors.password}</span>
-                <input onChange={this.handleInput} type="text" value={image} placeholder="URL of profile profile picture" />
+                <input onChange={this.handleInput} type="text" value={image} name="image" placeholder="URL of profile profile picture" />
                 <input onChange={this.handleInput} value={username} type="text" name="username" placeholder="Username" />
                 <input onChange={this.handleInput} value={email} type="email" name="email" placeholder="Email" />
                 <input onChange={this.handleInput} value={password} type="password" name="password" placeholder="Password" />

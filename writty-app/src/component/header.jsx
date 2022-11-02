@@ -3,10 +3,7 @@ import { NavLink } from "react-router-dom";
 
 
 export default class Header extends React.Component {
-    constructor(props) {
-        super(props)
-
-    }
+    
     render() {
         return (
             <header>
@@ -28,13 +25,22 @@ function Signed(props) {
 
         <React.Fragment>
             <li>
-                <NavLink to="/">Home</NavLink>
+                <NavLink to="/"
+                 exact={"true"}
+                className={({ isActive }) => (isActive ? 'shadow' : 'inactive')}
+                >Home</NavLink>
             </li>
             <li>
-                <NavLink to="/signIn">Sign in</NavLink>
+                <NavLink to="/signIn"
+                 exact={true}
+                className={({ isActive }) => (isActive ? 'shadow' : 'inactive')}
+                >Sign in</NavLink>
             </li>
             <li>
-                <NavLink to="/signUp">Sign up</NavLink>
+                <NavLink to="/signUp"
+                 exact={true} 
+                className={({ isActive }) => (isActive ? 'shadow' : 'inactive')}
+                >Sign up</NavLink>
             </li>
             </React.Fragment>
 
@@ -44,33 +50,31 @@ function Signed(props) {
 function AfterSigned(props) {
     return (
         <React.Fragment>
-            <li>
+            <li >
                 <NavLink 
-                exact
-                to="/"
-                 className={({ isActive }) => (isActive ? 'shadow' : 'inactive')}
-                
+              exact={true} to="/"
+              className={({ isActive }) => (isActive ? 'shadow' : 'inactive')}
                 >Home</NavLink>
             </li>
             <li>
                 <NavLink 
-                exact
+                exact={true}
                 to="/editor"
                 className={({ isActive }) => (isActive ? 'shadow' : 'inactive')}
                 
-                ><i class="fa-solid fa-square-pen"></i> New Post</NavLink>
+                ><i className="fa-solid fa-square-pen"></i> New Post</NavLink>
             </li>
             <li>
                 <NavLink 
-                exact
+                exact={true}
                 to="/setting"
                 className={({ isActive }) => (isActive ? 'shadow' : 'inactive')}
              
-                ><i class="fa-solid fa-gear"></i>  Setting</NavLink>
+                ><i className="fa-solid fa-gear"></i>  Setting</NavLink>
             </li>
             <li>
                 <NavLink 
-                exact
+                 exact={true}
                 to={`/${props.currentUser.username}`} 
                 className={({ isActive }) => (isActive ? 'shadow' : 'inactive')}
                 >

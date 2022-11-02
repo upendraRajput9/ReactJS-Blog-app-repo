@@ -30,7 +30,7 @@ export default class Article extends Component {
                         </Link></h4>
                         <time>{dl[date.getDay()].slice(0, 3)} {ml[date.getMonth()]} {date.getDate()}, {date.getFullYear()}</time>
                     </div>
-                    <button onClick={() => elm.favorited ? this.props.handleUnfavorite(elm.slug) : this.props.handleFavorite(elm.slug)} className={elm.favorited ? "button-89 favoriteOne" : "button-89"} role="button">{elm.favoritesCount} <i class="fa-solid fa-heart"></i></button>
+                    <button onClick={() => elm.favorited ? this.props.handleUnfavorite(elm.slug) : this.props.handleFavorite(elm.slug)} className={elm.favorited ? "button-89 favoriteOne" : "button-89"} role="button">{elm.favoritesCount} <i className="fa-solid fa-heart"></i></button>
                 </header>
 
                 <Link to={`/article/${elm.slug}`}>

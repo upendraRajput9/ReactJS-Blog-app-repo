@@ -26,7 +26,7 @@ let date = new Date(props.createdAt)
 </div>
     {
     props.user?
-    <a onClick={props.handleDelete}><i class="fa-regular fa-trash-can"></i></a>:""
+    <a onClick={props.handleDelete}><i className="fa-regular fa-trash-can"></i></a>:""
 }
 </div>
     </article>

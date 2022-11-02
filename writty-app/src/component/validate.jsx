@@ -10,7 +10,7 @@ export default function validate(errors, name, value) {
             break;
         case "password":
             let passwordError = "";
-            if (value.length < 6) {
+            if (value.length!==0&&value.length < 6) {
                 passwordError = "password can't be less than 6 character"
             }
 
