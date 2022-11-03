@@ -23,9 +23,9 @@ const NewPost = (Props) => {
         tagList: []
     })
     React.useEffect(() => {
-        console.log(state)
+       
         if (state) {
-            console.log(state);
+            
             let { title, description, body, tagList } = state
             tagList = tagList.join(",")
             setArticle({ title, description, body, tagList })

@@ -125,31 +125,36 @@ export default class Home extends Component {
 
         }
     }
-    handleFavorite =async (slug)=>{
+    handleFavorite = async (slug) => {
         await api.post(`/${slug}/favorite`)
-        this.state.activeTab==="yourFeed"? this.yourFeed():this.globalFetch()
+        this.state.activeTab === "yourFeed" ? this.yourFeed() : this.globalFetch()
     }
-    handleUnfavorite= async (slug)=>{
+    handleUnfavorite = async (slug) => {
         await api.delete(`/${slug}/favorite`)
-        this.state.activeTab=== "yourFeed"? this.yourFeed():this.globalFetch()
+        this.state.activeTab === "yourFeed" ? this.yourFeed() : this.globalFetch()
     }
 
     render() {
-        let { articlesData,offset, tag, articlesCount, error, activeTab, limit } = this.state
-        if (error) {
+        let { articlesData, offset, tag, articlesCount, error, activeTab, limit } = this.state
+        if (!articlesData) {
             return (
                 <main className="home container">
                     <h1>Loading...</h1>
-                    </main>
-                )
+                </main>
+            )
+        }
+        if (error) {
+            <main className="home container">
+                <h1>Not able to fetch Article. go and check your internet</h1>
+            </main>
         }
         return (
             <main className="home container">
                 <section className="aritcle-container">
-                    <FeedNav  activeTab={ activeTab} {...this.props} handleActiveTab={this.handleActiveTab} tag={tag} />
+                    <FeedNav activeTab={activeTab} {...this.props} handleActiveTab={this.handleActiveTab} tag={tag} />
                     {articlesData ? <>
                         <ArticleList handleFavorite={this.handleFavorite} handleUnfavorite={this.handleUnfavorite} articles={articlesData} />
-                        <Pagination limit={limit} activeoffset={offset/10} offset={this.handleOffsetBtn} articlesCount={articlesCount} />
+                        <Pagination limit={limit} activeoffset={offset / 10} offset={this.handleOffsetBtn} articlesCount={articlesCount} />
                     </> : ""
                     }
                 </section>

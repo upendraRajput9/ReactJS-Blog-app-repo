@@ -40,8 +40,11 @@ function SingleArticle(props) {
         return error
     }
     if (!article) {
-        return <h1>Loading</h1>
+        return ( <main className="home container">
+        <h1>Loading...</h1>
+        </main>)
     }
+
     
         let dl = [
             'Sunday',

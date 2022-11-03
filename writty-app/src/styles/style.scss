@@ -153,12 +153,7 @@ a {
     text-decoration: underline;
 }
 
-.shadow{
-    color: rgb(64, 64, 64);
-}
-.inactive{
-    color: rgb(188, 188, 188);
-}
+
 .flex{
     display: flex;
 }
@@ -186,14 +181,18 @@ header {
                 
                 font-family: 'Rubik', sans-serif;
                 font-weight: 550;
-
+                color: rgb(188, 188, 188);
+                
                 p {
                     padding-right: 10px;
                 }
-
+               
                 align-items: center;
                 display: flex;
                 justify-content: space-between;
+            }
+            a.active{
+                color: rgb(64, 64, 64);
             }
         }
     }

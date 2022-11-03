@@ -1,5 +1,5 @@
 import { Component } from "react"
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes,Router } from "react-router-dom"
 import axios from "axios";
 import { ROOT_URL } from "./utilits/constant";
 import Header from "./header"
@@ -70,23 +70,25 @@ export default class APP extends Component {
 
 const Authorized = (Props) => {
     return (
+       
         <Routes>
-            <Route exact path="/" element={<Home {...Props} />} />
-            <Route exact path="/editor" element={<NewPost {...Props} />} />
-            <Route exact path="/editor/:slug" element={<NewPost {...Props} />} />
-            <Route exact path="/setting" element={<Setting {...Props} />} />
-            <Route exact path="/article/:slug" element={<SingleArticle {...Props} />} />
-            <Route exact path="/:username" element={<Profile {...Props} />} />
-        </Routes>)
+            <Route path="/" element={<Home {...Props} />} />
+            <Route  path="editor/*" element={<NewPost {...Props} />} />
+            <Route  path="editor/:slug/*" element={<NewPost {...Props} />} />
+            <Route  path="setting/*" element={<Setting {...Props} />} />
+            <Route  path="article/:slug/*" element={<SingleArticle {...Props} />} />
+            <Route  path=":username/*" element={<Profile {...Props} />} />
+        </Routes>
+       )
 }
 
 const Unauthorized = (Props) => {
     return (
         <Routes>
-            <Route exact path="/" element={<Home />}  />
-            <Route exact path="/article/:slug" element={<SingleArticle {...Props} />} />
-            <Route exact path="/signUp" element={<SignUp updateUser={Props.updateUser} />} />
-            <Route exact path="/:username" element={<Profile {...Props} />} />
-            <Route exact path="/signIn" element={<SignIn updateUser={Props.updateUser} />} />
+            <Route  path="/" element={<Home />} />
+            <Route path="article/:slug/*" element={<SingleArticle {...Props} />} />
+            <Route path="signUp/*" element={<SignUp updateUser={Props.updateUser} />} />
+            <Route path=":username/*" element={<Profile {...Props} />} />
+            <Route path="signIn/*" element={<SignIn updateUser={Props.updateUser} />} />
         </Routes>)
 }

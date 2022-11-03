@@ -57,7 +57,7 @@ const handleUnfollow= async ()=>{
             <h1>{profile.username}</h1>
  <p>{profile.bio}</p>
             {props.currentUser?profile.username === props.currentUser.username ?
-                <button className="button4"><i class="fa-solid fa-gear"></i> <NavLink to="/setting">Edit Profile</NavLink></button> :
+                <button className="button4"><i className="fa-solid fa-gear"></i> <NavLink to="/setting">Edit Profile</NavLink></button> :
                 <button onClick={profile.following ?handleUnfollow:handlefollow} className="button4">{profile.following ? "+ Unfollow" : '+ Follow'} {profile.username}</button>:""
             }
             </article>
