@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import UserContext from "./userContext";
+
 
 export default class Article extends Component {
 
-
+    static contextType = UserContext;
+    
 
     render() {
+      
         let elm = this.props
         let dl = [
             'Sunday',

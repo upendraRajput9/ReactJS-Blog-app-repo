@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { ROOT_URL, articlesURL } from "./utilits/constant";
 import { Component } from "react";
+import UserContext from "./userContext";
 
 const jwt = localStorage.getItem("jwtKey")
 const api = axios.create({
@@ -14,7 +15,7 @@ const api = axios.create({
     }
 })
 
-function Profile(props) {
+function Profile() {
     let param = useParams()
     let [profile, setUser] = useState(null)
     const [username, setUsername] = useState(param.username)
@@ -47,6 +48,8 @@ const handleUnfollow= async ()=>{
     }
     
     return (
+        <UserContext.Consumer>{
+            (props)=>
         <section className="profile-section">
             <div className="profile-div">
                 <article>
@@ -64,6 +67,7 @@ const handleUnfollow= async ()=>{
             </div>
             <HomePrivate {...props} username={profile.username} />
         </section>
+        }</UserContext.Consumer>
     )
 }
 

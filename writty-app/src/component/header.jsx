@@ -1,8 +1,9 @@
 import React from "react";
 import { NavLink,Link } from "react-router-dom";
-
+import UserContext from "./userContext";
 
 export default class Header extends React.Component {
+static contextType = UserContext
 
     render() {
         return (
@@ -11,7 +12,7 @@ export default class Header extends React.Component {
                     <Link  to="/">  <h1>Writty</h1></Link>
                     <nav>
                         <ul>{
-                            this.props.isLoggedIn ? <AfterSigned {...this.props} /> : <Signed {...this.props} />
+                            this.context.isLoggedIn ? <AfterSigned/> : <Signed/>
                         }</ul>
                     </nav>
                 </div>
@@ -41,8 +42,10 @@ function Signed(props) {
     )
 }
 
-function AfterSigned(props) {
+function AfterSigned() {
     return (
+        <UserContext.Consumer>{
+(props)=>
         <React.Fragment>
             <li >
                 <NavLink end to="/"
@@ -68,5 +71,6 @@ function AfterSigned(props) {
                 </NavLink>
             </li>
         </React.Fragment>
+}</UserContext.Consumer>
     )
 }

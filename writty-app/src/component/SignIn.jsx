@@ -3,6 +3,7 @@ import React from "react";
 import { ROOT_URL } from "./utilits/constant";
 import { useNavigate } from "react-router-dom";
 import validate from "./validate";
+import UserContext from "./userContext";
 
 const api = axios.create({
     baseURL: ROOT_URL
@@ -71,10 +72,13 @@ class SignInComponent extends React.Component {
     }
 }
 
-const SignIn = (Props) => {
+const SignIn = () => {
     const navigate = useNavigate()
     return (
-        <SignInComponent navigate={navigate} updateUser={Props.updateUser} />
+        <UserContext.Consumer>{
+            (props)=>
+        <SignInComponent navigate={navigate} updateUser={props.updateUser} />
+    }</UserContext.Consumer>
     )
 }
 export default SignIn

@@ -3,8 +3,9 @@ import CommentList from "./commentList";
 import { ROOT_URL, articlesURL } from "./utilits/constant";
 import { Route, useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import UserContext from "./userContext";
 
-function SingleArticle(props) {
+function SingleArticle() {
     const [article, setArticle] = useState(null)
     const [{ slug }, setSlug] = useState(useParams())
     const [error, setError] = useState("")
@@ -57,7 +58,10 @@ function SingleArticle(props) {
         ];
         let ml = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
         let date = new Date(article.createdAt)
-    return (<section className="singleArticle">
+    return (
+    <UserContext.Consumer>{
+        (props)=>
+    <section className="singleArticle">
     <div>
        
         <header>
@@ -107,6 +111,7 @@ function SingleArticle(props) {
         <CommentList {...props} slug={slug} />
         </section>
     </section>
+    }</UserContext.Consumer>
     )
     
 

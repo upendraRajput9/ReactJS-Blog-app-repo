@@ -5,6 +5,7 @@ import Pagination from "./Pagination";
 import Aside from "./aside"
 import FeedNav from "./feedNav";
 import axios from "axios"
+import UserContext from "./userContext";
 
 const jwt = localStorage.getItem("jwtKey")
 
@@ -18,14 +19,14 @@ const api = axios.create({
 })
 
 export default class Home extends Component {
-
+static contextType = UserContext
     state = {
         articlesData: null,
         limit: 10,
         offset: 0,
         error: "",
         tag: null,
-        activeTab: this.props.currentUser ? "yourFeed" : "globalFeed"
+        activeTab: this.context.currentUser ? "yourFeed" : "globalFeed"
     }
 
 
@@ -151,7 +152,7 @@ export default class Home extends Component {
         return (
             <main className="home container">
                 <section className="aritcle-container">
-                    <FeedNav activeTab={activeTab} {...this.props} handleActiveTab={this.handleActiveTab} tag={tag} />
+                    <FeedNav activeTab={activeTab} {...this.context} handleActiveTab={this.handleActiveTab} tag={tag} />
                     {articlesData ? <>
                         <ArticleList handleFavorite={this.handleFavorite} handleUnfavorite={this.handleUnfavorite} articles={articlesData} />
                         <Pagination limit={limit} activeoffset={offset / 10} offset={this.handleOffsetBtn} articlesCount={articlesCount} />

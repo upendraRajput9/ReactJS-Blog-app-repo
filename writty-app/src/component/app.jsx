@@ -1,4 +1,4 @@
-import { Component } from "react"
+import { Component} from "react"
 import { Route, Routes,Router } from "react-router-dom"
 import axios from "axios";
 import { ROOT_URL } from "./utilits/constant";
@@ -10,6 +10,8 @@ import Setting from "./Setting"
 import SingleArticle from "./SingleArticle"
 import Home from "./Home"
 import Profile from "./Profile";
+import UserContext from "./userContext";
+
 
 
 const api = axios.create({
@@ -57,10 +59,13 @@ export default class APP extends Component {
     }
     render() {
         let { isLoggedIn } = this.state
+        let contextValues = {currentUser:this.state.user, isLoggedIn:isLoggedIn,updateUser:this.updateUser,logoutUser:this.logoutUser,currentUser:this.state.user}
         return (
             <>
-                <Header currentUser={this.state.user} isLoggedIn={isLoggedIn} />
-                {isLoggedIn ? < Authorized updateUser={this.updateUser} logoutUser={this.logoutUser} currentUser={this.state.user} /> : <Unauthorized updateUser={this.updateUser} />}
+            <UserContext.Provider value={contextValues} >
+                <Header />
+                {isLoggedIn ? < Authorized /> : <Unauthorized />}
+                </UserContext.Provider>
             </>
         )
     }
@@ -72,12 +77,12 @@ const Authorized = (Props) => {
     return (
        
         <Routes>
-            <Route path="/" element={<Home {...Props} />} />
-            <Route  path="editor/*" element={<NewPost {...Props} />} />
-            <Route  path="editor/:slug/*" element={<NewPost {...Props} />} />
-            <Route  path="setting/*" element={<Setting {...Props} />} />
-            <Route  path="article/:slug/*" element={<SingleArticle {...Props} />} />
-            <Route  path=":username/*" element={<Profile {...Props} />} />
+            <Route path="/" element={<Home />} />
+            <Route  path="editor/*" element={<NewPost />} />
+            <Route  path="editor/:slug/*" element={<NewPost/>} />
+            <Route  path="setting/*" element={<Setting/>} />
+            <Route  path="article/:slug/*" element={<SingleArticle/>} />
+            <Route  path=":username/*" element={<Profile/>} />
         </Routes>
        )
 }
@@ -86,9 +91,9 @@ const Unauthorized = (Props) => {
     return (
         <Routes>
             <Route  path="/" element={<Home />} />
-            <Route path="article/:slug/*" element={<SingleArticle {...Props} />} />
-            <Route path="signUp/*" element={<SignUp updateUser={Props.updateUser} />} />
-            <Route path=":username/*" element={<Profile {...Props} />} />
-            <Route path="signIn/*" element={<SignIn updateUser={Props.updateUser} />} />
+            <Route path="article/:slug/*" element={<SingleArticle/>} />
+            <Route path="signUp/*" element={<SignUp/>} />
+            <Route path=":username/*" element={<Profile/>} />
+            <Route path="signIn/*" element={<SignIn />} />
         </Routes>)
 }

@@ -3,6 +3,7 @@ import axios from "axios";
 import validate from "./validate";
 import { ROOT_URL } from "./utilits/constant"
 import { useNavigate } from "react-router-dom";
+import UserContext from "./userContext";
 
 
 const jwt = localStorage.getItem("jwtKey")
@@ -14,6 +15,8 @@ const api = axios.create({
     }
 })
 class SettingComponent extends React.PureComponent {
+
+    static contextType = UserContext
     constructor(props, history) {
         super(props)
         this.state = {
@@ -34,7 +37,7 @@ class SettingComponent extends React.PureComponent {
     }
     //componentDidMount
     componentDidMount() {
-        let { username, image, bio, email } = this.props.currentUser
+        let { username, image, bio, email } = this.context.currentUser
         this.setState({ username, image, bio, email })
     }
 
@@ -43,7 +46,7 @@ class SettingComponent extends React.PureComponent {
         let { username, email, password, image, bio } = this.state
         let user = { user: password ? { username, email, password, image, bio } : { username, email, image, bio } }
         await api.put("/api/user", user)
-            .then(res => this.props.updateUser(res.data.user))
+            .then(res => this.context.updateUser(res.data.user))
             .catch(error => console.log(error))
         this.props.navigate("/")
     }
@@ -59,7 +62,7 @@ class SettingComponent extends React.PureComponent {
     }
     handleLogout = () => {
         localStorage.removeItem("jwtKey")
-        this.props.logoutUser()
+        this.context.logoutUser()
         this.props.navigate("/")
     }
     render() {
@@ -89,7 +92,7 @@ class SettingComponent extends React.PureComponent {
 function Setting(props) {
     const navigate = useNavigate()
     return (
-        <SettingComponent navigate={navigate} {...props} />
+        <SettingComponent navigate={navigate}  />
     )
 }
 
