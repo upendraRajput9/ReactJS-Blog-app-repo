@@ -10,7 +10,7 @@ const api = axios.create({
     baseURL: ROOT_URL,
     headers: {
         "Content-Type": "application/json",
-        authorization: `Token ${jwt}`,
+        authorization: jwt&&`Token ${jwt}`,
     }
 })
 

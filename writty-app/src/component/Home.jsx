@@ -12,7 +12,7 @@ const api = axios.create({
     baseURL: articlesURL,
     headers: {
         "Content-Type": "application/json",
-        authorization: `Token ${jwt}`,
+        authorization:jwt&&`Token ${jwt}`,
     },
 
 })
@@ -67,6 +67,7 @@ export default class Home extends Component {
 
         api.get(`/?limit=${limit}&offset=${offset}${tag ? `&tag=${tag}` : ""}`)
             .then(res => {
+             console.log(res.data.articles);
                 this.setState({
                     articlesData: res.data.articles,
                     articlesCount: res.data.articlesCount,
@@ -103,6 +104,7 @@ export default class Home extends Component {
 
     //ComponentDidMount
     componentDidMount() {
+         this.globalFetch()
         let { activeTab } = this.state
         //    console.log(api.get('/feed'))
         if (activeTab === "yourFeed") {

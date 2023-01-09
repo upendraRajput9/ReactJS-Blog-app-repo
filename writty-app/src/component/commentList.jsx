@@ -11,7 +11,7 @@ const api = axios.create({
     baseURL: articlesURL,
     headers: {
         "Content-Type": "application/json",
-        authorization: `Token ${jwt}`,
+        authorization:jwt&&`Token ${jwt}`,
     }
 })
 const CommentList = (props) => {
